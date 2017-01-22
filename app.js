@@ -2,8 +2,15 @@ var express= require('express'),
     mongoose = require('mongoose'),
     bodyParser = require('body-parser');
 
-var db = mongoose.connect('mongodb://rhino:27017/errorLog');
+var db;
 var errorRecord = require('./models/errorRecordModel');
+
+if(process.env.ENV == 'Test'){
+  db = mongoose.connect('mongodb://rhino:27017/errorLogTest');
+}
+else {
+  db = mongoose.connect('mongodb://rhino:27017/errorLog');
+}
 
 var app = express();
 
@@ -27,3 +34,5 @@ app.get('/', function(req,res){
 app.listen(port,function(){
   console.log('Gulp is running my app on port:' + port);
 });
+
+module.exports.getApp = app;

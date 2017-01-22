@@ -3,43 +3,14 @@ var express = require('express');
 var routes = function(errorRecord){
   var errorRouter = express.Router();
 
+  var errorRecordController =
+  require('../controllers/errorRecordController')(errorRecord);
+
   //set up api routes
 
   errorRouter.route('/') //api/Errors
-    .post(function(req,res){
-      var errorRecordInstance = new errorRecord(req.body);
-
-      //console.log(errorRecordInstance);
-      errorRecordInstance.save(function(err){
-        if(err){
-          res.status(500).send(err);
-        }
-        else {
-          //201=created
-          res.status(201).send(errorRecordInstance);
-        }
-
-      });
-
-    })
-    .get(function(req,res){
-      //var responsejson = {hello: "This is sparta!"};
-
-      var query = {};
-      if(req.query.appId){
-        query.appId = req.query.appId;
-      }
-
-      errorRecord.find(query,function(err, errRecords){
-          if(err){
-            res.status(500).send(err);
-          }
-          else {
-            res.json(errRecords);
-          }
-      });
-
-    });
+    .post(errorRecordController.post)
+    .get(errorRecordController.get);
 
     //custom middleware for /:id route only
     errorRouter.use('/:id', function(req,res,next){
