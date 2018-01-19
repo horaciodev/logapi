@@ -1,5 +1,8 @@
+const bluebird = require('bluebird');
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
+
+mongoose.Promise = bluebird;
 
   var errorRecordModel = new Schema({
     appId: String,

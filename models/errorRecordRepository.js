@@ -1,25 +1,23 @@
 var errorRecordRepository = function(req,res,errorRecord){
-  var saveCallBack = function(err){
-    if(err){
-      res.status(500);
-      res.status.send(err);
-    }
-    else {
+  var validateAndSaveModel = function(){
+
       if(!req.body.appId || !req.body.errorDescr){
         res.status(400);
         res.send('appId and errorDescr are required');
+        console.log('I am going to give you a HTTP 400 -');
+        throw 400;
       }
       else {
         //201=created
+        errorRecord.save();
         res.status(201);
         res.send(errorRecord);
       }
 
-    }
   }
 
   return{
-    saveCallBack : saveCallBack
+    validateAndSaveModel : validateAndSaveModel
   };
 }
 

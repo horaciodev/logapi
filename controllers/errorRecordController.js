@@ -3,11 +3,16 @@ var errorRecordController = function(errorRecord){
   var post = function(req,res){
     var errorRecordInstance = new errorRecord(req.body);
 
+    const bluebird = require('bluebird');
 
     var errorRecordRepo =
-    require('../models/errorRecordRepository')(req,res,errorRecordInstance);
+    bluebird.promisifyAll(
+    require('../models/errorRecordRepository')(req,res,errorRecordInstance));
 
-    errorRecordInstance.save(errorRecordRepo.saveCallBack);
+    errorRecordRepo.validateAndSaveModelAsync()
+    .catch(function(err){
+      console.log('error:' + err);
+    });
   }
 
   var get = function(req,res){

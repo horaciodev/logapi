@@ -6,10 +6,10 @@ var db;
 var errorRecord = require('./models/errorRecordModel');
 
 if(process.env.ENV == 'Test'){
-  db = mongoose.connect('mongodb://rhino:27017/errorLogTest');
+  db = mongoose.connect('mongodb://localhost:27017/errorLogTest');
 }
 else {
-  db = mongoose.connect('mongodb://rhino:27017/errorLog');
+  db = mongoose.connect('mongodb://localhost:27017/errorLog');
 }
 
 var app = express();
